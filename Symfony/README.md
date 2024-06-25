@@ -55,8 +55,6 @@ Verificar que Doctrine puede comunicarse con la base de datos
 php bin/console doctrine:schema:validate
 ~~~
 
->Doctrine Query Language DQL :(
-
 ### Controlador
 ~~~
 php bin/console make:controller
@@ -65,4 +63,12 @@ php bin/console make:controller
 > GentlePuppyController):
  > PostController
 
- 
+### Forms
+~~~
+php bin/console make:Form  
+~~~
+> The name of the form class (e.g. GrumpyGnomeType):
+> Post
+
+> The name of Entity or fully qualified model class name that the new form will be bound to (empty for none):
+> Post
