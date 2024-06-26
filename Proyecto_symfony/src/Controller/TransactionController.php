@@ -33,8 +33,10 @@ class TransactionController extends AbstractController
             $client = $this->emi->getRepository(Client::class)->findOneBy(['doc_num' => $client->getDocNum(), 'docType' => $client->getDocType()->getId()]);
             if ($client) {
                 return $this->redirectToRoute('app_transaction', ['id' => $client->getId()]);
+            } else {
+                $msg = 'No se encontró el cliente';
             }
-            $msg = 'No se encontró la cuenta';
+            
         }
         return $this->render('find_client/index.html.twig', [
             'client_form' => $client_form->createView(),
@@ -62,8 +64,10 @@ class TransactionController extends AbstractController
                     $this->emi->getRepository(Transaction::class)->Retirar($account, $transaction, $sucursal);
                 }
                 $msg = 'Transacción completada';
+            } else {
+                $msg = 'Número de cuenta no encontrado';
             }
-            $msg = 'Número de cuenta no encontrado';
+            
         }
         return $this->render('transaction/index.html.twig', [
             'form' => $form->createView(),

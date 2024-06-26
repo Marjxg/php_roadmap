@@ -1,10 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TransactionController!{% endblock %}
+{% block title %}Transacciones{% endblock %}
 
 {% block body %}
     {% include 'header/index.html.twig' %}
     <b>Buscar usuario por número de documento</b></br></br>
-    {{form(form)}}
+    {#{{form(form)}}#}
+    {{ form_start(form, {'attr': {'id': 'transaction_form'}}) }}
+        {{ form_row(form.account_id, {'attr': {'class': 'validate-integer'}}) }}
+        {{ form_row(form.amount, {'attr': {'class': 'validate-float'}}) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.type) }}
+        {{ form_row(form.Procesar) }}
+    {{ form_end(form) }}
     {{msg}}
+
+    <script>
+        $(document).ready(function() {
+            $('#transaction_form').on('submit', function(event) {
+                let valid = true;
+
+                $('.validate-integer').each(function() {
+                    if (!/^-?\d+$/.test($(this).val())) {
+                        alert('Por favor ingrese un número entero válido en el campo: Account Id');
+                        valid = false;
+                        return false;
+                    }
+                });
+
+                $('.validate-float').each(function() {
+                    if (!/^-?\d+(\.\d+)?$/.test($(this).val())) {
+                        alert('Por favor ingrese un número válido en el campo: Balance');
+                        valid = false;
+                        return false;
+                    }
+                });
+
+                if (!valid) {
+                    event.preventDefault(); // evitar el envío del formulario si hay errores
+                }
+            });
+        });
+    </script>
 {% endblock %}

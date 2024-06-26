@@ -21,6 +21,7 @@ class ConsultAccountController extends AbstractController
     #[Route('/consult/account', name: 'app_consult_account')]
     public function index(Request $request): Response
     {
+        $msg = "";
         $accounts = [];
         $client = new Client();
         $client_form = $this->createForm(ClientType::class, $client);
@@ -29,6 +30,11 @@ class ConsultAccountController extends AbstractController
             $client = $this->emi->getRepository(Client::class)->findOneBy(['doc_num'=>$client->getDocNum(), 'docType'=>$client->getDocType()->getId()]);
             if ($client){
                 $accounts = $this->emi->getRepository(Account::class)->findBy(['client' => $client->getId()]);
+                if (count($accounts) == 0){
+                    $msg = "El cliente aún no posee una cuenta";
+                }
+            } else {
+                $msg = "Cliente no encontrado";
             }
         }
         return $this->render('consult_account/index.html.twig', [
@@ -36,6 +42,7 @@ class ConsultAccountController extends AbstractController
             'client' => $client,
             'cuentas'=> $accounts,
             'urls' => ['app_home' => 'Regresar'],
+            'msg' => $msg,
         ]);
     }
 }

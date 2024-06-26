@@ -5,13 +5,37 @@
 {% block body %}
     {% include 'header/index.html.twig' %}
     {% if client.getCorporateName() is not null %}
-        <h2>¡Bienvenido/a! {{ client.getCorporateName() }}</h2>
+        <h2>Cliente:  {{ client.getCorporateName() }}</h2>
     {% else %}
-        <h2>¡Bienvenido/a! {{ client.getName() }} {{ client.getLastName() }}</h2>
+        <h2>Cliente:  {{ client.getName() }} {{ client.getLastName() }}</h2>
     {% endif %}
-    <b>Fecha de creación cuenta: {{client.getCreationDate() | date}}</b></br>
+    <b>Fecha de creación usuario: {{client.getCreationDate() | date}}</b></br>
     <b>Documento de identificación: {{client.getDocNum()}}</b></br></br>
-    {{ form(form) }}
+    {# {{ form(form) }} #}
+    {{ form_start(form, {'attr': {'id': 'form'}}) }}
+        {{ form_row(form.balance, {'attr': {'class': 'validate-balance'}}) }}
+        {{ form_row(form.Crear) }}
+    {{ form_end(form) }}
     {{msg}}
+
+    <script>
+        $(document).ready(function() {
+            $('#form').on('submit', function(event) {
+                let valid = true;
+
+                $('.validate-balance').each(function() {
+                    if (!/^-?\d+(\.\d+)?$/.test($(this).val())) {
+                        alert('Por favor ingrese un texto válido en el campo ' + $(this).attr('name'));
+                        valid = false;
+                        return false; 
+                    }
+                });
+
+                if (!valid) {
+                    event.preventDefault(); 
+                }
+            });
+        });
+    </script>
 {% endblock %}
 

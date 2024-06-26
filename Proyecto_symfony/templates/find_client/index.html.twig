@@ -5,7 +5,30 @@
 {% block body %}
 {% include 'header/index.html.twig' %}
 <b>Buscar usuario por número de documento</b></br></br>
-{{form(client_form)}}
+{{ form_start(client_form, {'attr': {'id': 'client_form'}}) }}
+        {{ form_row(client_form.doc_num, {'attr': {'class': 'validate-text'}}) }}
+        {{ form_row(client_form.docType) }}
+        {{ form_row(client_form.Buscar) }}
+{{ form_end(client_form) }}
+{{ msg }}
 {#{dump(client)}#}
-{{msg}}
+<script>
+        $(document).ready(function() {
+            $('#client_form').on('submit', function(event) {
+                let valid = true;
+
+                $('.validate-text').each(function() {
+                    if (!/^[0-9][0-9A-Z]*$/.test($(this).val())) {
+                        alert('Por favor ingrese un texto válido en el campo ' + $(this).attr('name'));
+                        valid = false;
+                        return false; 
+                    }
+                });
+
+                if (!valid) {
+                    event.preventDefault(); 
+                }
+            });
+        });
+    </script>
 {% endblock %}

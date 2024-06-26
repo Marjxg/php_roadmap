@@ -1,21 +1,39 @@
 {# templates/login/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{# ... #}
-
 {% block body %}
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('app_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}">
+    <form id="login_form" action="{{ path('app_login') }}" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}" class="validate-text">
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="_password">
+        <input type="password" id="password" name="_password" class="validate-text">
         <input type="hidden" name="_target_path" value="/home">
 
-        <button type="submit">login</button>
+        <button type="submit">Login</button>
     </form>
+
+    <script>
+        $(document).ready(function() {
+            $('#login_form').on('submit', function(event) {
+                let valid = true;
+
+                $('.validate-text').each(function() {
+                    if (!/^[\w]+$/.test($(this).val())) {
+                        alert('Por favor ingrese un texto válido en el campo ' + $(this).attr('name'));
+                        valid = false;
+                        return false; 
+                    }
+                });
+
+                if (!valid) {
+                    event.preventDefault(); 
+                }
+            });
+        });
+    </script>
 {% endblock %}
