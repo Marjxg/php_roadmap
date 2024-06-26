@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    {% include 'header/index.html.twig' %}
+    <b>¡Bienvenido/a Agente!</b>
+    </br>
+    {{ usuario.getName() }} {{ usuario.getLastName() }}
+{% endblock %}

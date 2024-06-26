@@ -16,9 +16,6 @@ class Account
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $account_number = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creation_date = null;
 
@@ -40,18 +37,6 @@ class Account
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getAccountNumber(): ?int
-    {
-        return $this->account_number;
-    }
-
-    public function setAccountNumber(int $account_number): static
-    {
-        $this->account_number = $account_number;
-
-        return $this;
     }
 
     public function getCreationDate(): ?\DateTimeInterface

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CreateAccountController!{% endblock %}
+
+{% block body %}
+{% include 'header/index.html.twig' %}
+<b>Buscar usuario por número de documento</b></br></br>
+{{form(client_form)}}
+{#{dump(client)}#}
+{{msg}}
+{% endblock %}

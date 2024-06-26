@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ConsultAccountController!{% endblock %}
+
+{% block body %}
+    {% include 'header/index.html.twig' %}
+    <b>Buscar usuario por número de documento</b></br></br>
+    {{form(client_form)}}
+
+    {% if client.getCorporateName() is not null %}
+        <h2>Nombre cuenta: {{ client.getCorporateName() }}</h2>
+    {% else %}
+        <h2>Nombre cuenta: {{ client.getName() }} {{ client.getLastName() }}</h2>
+    {% endif %}
+    <b>Fecha de creación cuenta: {{client.getCreationDate() | date}}</b></br>
+    <b>Documento de identificación: {{client.getDocNum()}}</b></br></br>
+
+    {% if cuentas is not empty %}
+        {% for cuenta in cuentas %}
+            Cuenta: {{ cuenta.getId() }} </br>
+            Balance: GTQ. {{ cuenta.getBalance() }} </br>
+            Fecha de creación: {{ cuenta.getCreationDate() | date }} </br>
+            <b>Transacciones:</b>
+            <table>
+            <thead>
+            <tr>
+            <td> Tipo </td>
+            <td> Cantidad </td>
+            <td> Descripción </td>
+            <td> Fecha </td>
+            </tr>
+            </thead>
+            <tbody>
+            {% if cuenta.getAccountTransac() is not empty %}
+                {% for transac in cuenta.getAccountTransac() %}
+                <tr>
+                    {% if (transac.getType() == 'D') %}
+                        <td> Depósito  </td>
+                    {% elseif (transac.getType() == 'R') %}
+                        <td> Retiro  </td>
+                    {% endif %}
+                    <td> GTQ. {{ transac.getAmount() }} </td>
+                    <td> {{ transac.getDescription() }} </td>
+                    <td> {{ transac.getTransactionDate | date }} </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+            </table>
+            </br> </br>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

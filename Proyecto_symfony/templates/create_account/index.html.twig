@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear Cuenta{% endblock %}
+
+{% block body %}
+    {% include 'header/index.html.twig' %}
+    {% if client.getCorporateName() is not null %}
+        <h2>¡Bienvenido/a! {{ client.getCorporateName() }}</h2>
+    {% else %}
+        <h2>¡Bienvenido/a! {{ client.getName() }} {{ client.getLastName() }}</h2>
+    {% endif %}
+    <b>Fecha de creación cuenta: {{client.getCreationDate() | date}}</b></br>
+    <b>Documento de identificación: {{client.getDocNum()}}</b></br></br>
+    {{ form(form) }}
+    {{msg}}
+{% endblock %}
+

@@ -1,0 +1,9 @@
+<header>
+    <nav>
+        <ul>
+            {% for route, label in urls %}
+                <li><a href="{{ path(route) }}">{{ label }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+</header>

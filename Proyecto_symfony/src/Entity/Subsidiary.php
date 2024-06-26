@@ -25,16 +25,16 @@ class Subsidiary
     #[ORM\JoinColumn(nullable: false)]
     private ?Municipio $municipio = null;
 
-    #[ORM\OneToMany(mappedBy: 'subsidiary', targetEntity: User::class)]
-    private Collection $user_subsidiary;
-
     #[ORM\OneToMany(mappedBy: 'subsidiary', targetEntity: Transaction::class)]
     private Collection $transaction_subs;
 
+    #[ORM\OneToMany(mappedBy: 'subsidiary', targetEntity: User::class)]
+    private Collection $user_subsidiary;
+
     public function __construct()
     {
-        $this->user_subsidiary = new ArrayCollection();
         $this->transaction_subs = new ArrayCollection();
+        $this->user_subsidiary = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,36 +79,6 @@ class Subsidiary
     }
 
     /**
-     * @return Collection<int, User>
-     */
-    public function getUserSubsidiary(): Collection
-    {
-        return $this->user_subsidiary;
-    }
-
-    public function addUserSubsidiary(User $userSubsidiary): static
-    {
-        if (!$this->user_subsidiary->contains($userSubsidiary)) {
-            $this->user_subsidiary->add($userSubsidiary);
-            $userSubsidiary->setSubsidiary($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserSubsidiary(User $userSubsidiary): static
-    {
-        if ($this->user_subsidiary->removeElement($userSubsidiary)) {
-            // set the owning side to null (unless already changed)
-            if ($userSubsidiary->getSubsidiary() === $this) {
-                $userSubsidiary->setSubsidiary(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Transaction>
      */
     public function getTransactionSubs(): Collection
@@ -132,6 +102,36 @@ class Subsidiary
             // set the owning side to null (unless already changed)
             if ($transactionSub->getSubsidiary() === $this) {
                 $transactionSub->setSubsidiary(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUserSubsidiary(): Collection
+    {
+        return $this->user_subsidiary;
+    }
+
+    public function addUserSubsidiary(User $userSubsidiary): static
+    {
+        if (!$this->user_subsidiary->contains($userSubsidiary)) {
+            $this->user_subsidiary->add($userSubsidiary);
+            $userSubsidiary->setSubsidiary($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserSubsidiary(User $userSubsidiary): static
+    {
+        if ($this->user_subsidiary->removeElement($userSubsidiary)) {
+            // set the owning side to null (unless already changed)
+            if ($userSubsidiary->getSubsidiary() === $this) {
+                $userSubsidiary->setSubsidiary(null);
             }
         }
 
